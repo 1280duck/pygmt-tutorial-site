@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>進階 1：台灣地形陰影圖 | PyGMT 教學</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<header class="site-header">
+  <h1>進階 1：台灣地形陰影圖</h1>
+  <p>使用較高解析度地形資料，搭配陰影與海岸線</p>
+</header>
+
+<nav class="navbar">
+  <a href="../index.html">回首頁</a>
+  <a href="#concept">觀念整理</a>
+  <a href="#code">程式碼</a>
+  <a href="#tasks">練習</a>
+</nav>
+
+<main class="content">
+  <section id="concept" class="card">
+    <h2>1. 觀念整理</h2>
+    <p>
+      這一節聚焦在台灣附近區域，使用
+      <code>load_earth_relief()</code> 載入較高解析度的地形，
+      再用 <code>grdimage()</code> 搭配陰影效果顯示山脈起伏。
+    </p>
+    <p>
+      重要參數：
+    </p>
+    <ul>
+      <li><code>resolution="15s"</code>：約 15 秒弧度解析度（較細緻，但檔案較大）。</li>
+      <li><code>region=[118, 123.5, 20, 26]</code>：經緯度範圍，大致涵蓋台灣與周邊海域。</li>
+      <li><code>shading=True</code> 或 <code>intensity</code>：加入地形陰影。</li>
+    </ul>
+  </section>
+
+  <section id="code" class="card">
+    <h2>2. 範例程式碼</h2>
+    <p>存成 <code>examples/04_taiwan_relief.py</code>：</p>
+<pre><code class="language-python">import pygmt
+from pygmt.datasets import load_earth_relief
+
+def main():
+    fig = pygmt.Figure()
+
+    # 台灣附近區域：經緯度 [118E, 123.5E, 20N, 26N]
+    region = [118, 123.5, 20, 26]
+
+    # 載入較高解析度地形（15 秒），並裁切到指定區域
+    grid = load_earth_relief(
+        resolution="15s",
+        region=region,
+        registration="gridline",
+    )
+
+    # 畫出台灣地形陰影圖
+    fig.grdimage(
+        grid=grid,
+        region=region,
+        projection="M12c",
+        frame=["af", "+tTaiwan relief"],
+        cmap="geo",
+        shading=True,
+    )
+
+    # 疊上海岸線與國界
+    fig.coast(
+        region=region,
+        projection="M12c",
+        shorelines="1p,black",
+        borders="1/0.5p,black",
+    )
+
+    fig.colorbar(frame=["a1000", "+L高度/深度 (m)"])
+
+    fig.show()
+    # fig.savefig("taiwan_relief.png")
+
+if __name__ == "__main__":
+    main()</code></pre>
+  </section>
+
+  <section id="tasks" class="card">
+    <h2>3. 小練習</h2>
+    <ol>
+      <li>把 <code>region</code> 改成你感興趣的區域，例如日本或南美洲。</li>
+      <li>調整解析度（例如改為 <code>"30s"</code> 或 <code>"01m"</code>），比較圖像細緻程度。</li>
+      <li>試著把 <code>cmap</code> 改成 <code>"relief"</code> 或其他喜歡的配色。</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>進階 1：台灣地形陰影圖 | sheen 的 PyGMT 教學</p>
+</footer>
+</body>
+</html>
