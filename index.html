@@ -2,130 +2,108 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>sheen 的 PyGMT 互動教學首頁</title>
+  <title>PyGMT 教學筆記 | 基礎篇首頁</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f7fb;
-      color: #111827;
-    }
-    header {
-      background: #1f2933;
-      color: #f9fafb;
-      padding: 1.8rem 1rem;
-      text-align: center;
-    }
-    main {
-      max-width: 900px;
-      margin: 1.5rem auto 3rem;
-      padding: 0 1rem;
-    }
-    .card {
-      background: #ffffff;
-      border-radius: 0.75rem;
-      padding: 1.5rem;
-      margin-bottom: 1.25rem;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
-    }
-    button {
-      border: none;
-      border-radius: 999px;
-      padding: 0.6rem 1.2rem;
-      font-size: 0.95rem;
-      cursor: pointer;
-      margin-right: 0.5rem;
-    }
-    #themeBtn {
-      background: #6366f1;
-      color: #f9fafb;
-    }
-    #clickBtn {
-      background: #10b981;
-      color: #022c22;
-    }
-    #counter {
-      font-weight: bold;
-      color: #10b981;
-    }
-    .preview-box {
-      margin-top: 0.75rem;
-      padding: 1rem;
-      border-radius: 0.75rem;
-      background: #111827;
-      color: #e5e7eb;
-      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
-      font-size: 0.9rem;
-      white-space: pre-wrap;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header>
-  <h1>sheen 的 PyGMT 互動教學網站</h1>
-  <p>這裡是用 GitHub Pages 架起來的互動式網站示範</p>
+<header class="site-header">
+  <h1>PyGMT 教學筆記（基礎篇）</h1>
+  <p>用 Python 玩 GMT：從安裝到畫出第一張地圖</p>
 </header>
 
-<main>
-  <section class="card">
-    <h2>1. 這是一個互動區塊</h2>
+<nav class="navbar">
+  <a href="#intro">PyGMT 是什麼？</a>
+  <a href="#install">安裝教學</a>
+  <a href="#toc">基礎章節</a>
+  <a href="#refs">參考資料</a>
+</nav>
+
+<main class="content">
+  <section id="intro" class="card">
+    <h2>1. PyGMT 與 GMT 簡介</h2>
     <p>
-      試著按下面的按鈕，看看背景顏色與文字會怎麼變。
-      這些效果全部都是由瀏覽器裡的 JavaScript 完成，不需要後端伺服器。
+      GMT（Generic Mapping Tools）是一套專門用於科學繪圖與地圖製作的開源工具，
+      由 Pål Wessel 與 Walter H. F. Smith 發展，廣泛應用在地球物理與海洋科學。
     </p>
-
-    <button id="themeBtn">切換背景主題</button>
-    <button id="clickBtn">點我計數</button>
-    <span>你已經點了 <span id="counter">0</span> 次</span>
-
-    <div class="preview-box" id="previewBox">
-你現在看到的是「亮色主題」。
-按下「切換背景主題」試試看！
-    </div>
+    <p>
+      <strong>PyGMT</strong> 是 GMT 的 Python 介面，讓你可以：
+    </p>
+    <ul>
+      <li>在 Python 中直接呼叫 GMT 的繪圖與資料處理功能。</li>
+      <li>與 NumPy、Pandas、Xarray 等套件整合，做資料分析＋出地圖。</li>
+      <li>在 Jupyter / JupyterLab 裡互動式畫圖，適合教學與報告。</li>
+    </ul>
   </section>
 
-  <section class="card">
-    <h2>2. 互動網站概念</h2>
-    <ul>
-      <li>HTML：決定頁面有哪些區塊、文字、按鈕。</li>
-      <li>CSS：決定顏色、排版、字型。</li>
-      <li>JavaScript：決定「互動行為」（例如按鈕被點擊後要做什麼）。</li>
-    </ul>
+  <section id="install" class="card">
+    <h2>2. 安裝 GMT / PyGMT（使用 conda）</h2>
+
+    <h3>2.1 安裝 Anaconda 或 Miniconda</h3>
     <p>
-      把這三個東西組合起來，再放到 GitHub 上，
-      開啟 GitHub Pages，就能得到一個隨時可連結分享的互動網站。
+      建議先安裝 <strong>Anaconda</strong> 或 <strong>Miniconda</strong>，方便使用
+      <code>conda</code> 來管理環境。
+    </p>
+
+    <h3>2.2 設定 conda-forge 頻道</h3>
+    <p>在終端機（Linux / macOS）或 Anaconda Prompt（Windows）輸入：</p>
+<pre><code class="language-bash">conda config --prepend channels conda-forge</code></pre>
+
+    <h3>2.3 建立環境並安裝 GMT / PyGMT</h3>
+    <p>只練 GMT 指令列：</p>
+<pre><code class="language-bash">conda create --name mygmt python=3.9 gmt</code></pre>
+
+    <p>若要直接用 PyGMT（會連 GMT 一起裝好）：</p>
+<pre><code class="language-bash">conda create --name mygmt python=3.9 numpy pandas xarray netcdf4 packaging pygmt</code></pre>
+
+    <h3>2.4 啟動環境並測試</h3>
+<pre><code class="language-bash">conda activate mygmt
+gmt help</code></pre>
+
+    <p>測試 PyGMT：</p>
+<pre><code class="language-python">import pygmt
+pygmt.show_versions()</code></pre>
+
+    <h3>2.5（選用）安裝 JupyterLab</h3>
+<pre><code class="language-bash">conda install jupyterlab
+jupyter lab</code></pre>
+  </section>
+
+  <section id="toc" class="card">
+    <h2>3. 基礎章節總覽</h2>
+    <p>建議依序閱讀：</p>
+    <ol>
+      <li>
+        <a href="basics/01_first_map.html">基礎 1：第一張世界地圖（coast + 投影）</a>
+      </li>
+      <li>
+        <a href="basics/02_region_map.html">基礎 2：區域地圖（指定經緯度範圍）</a>
+      </li>
+      <li>
+        <a href="basics/03_relief_map.html">基礎 3：地形與海深色階圖（grdimage + colorbar）</a>
+      </li>
+    </ol>
+    <p>
+      對應的 Python 程式碼都放在
+      <code>examples/</code> 資料夾，實際跑一次會更有感覺。
+    </p>
+  </section>
+
+  <section id="refs" class="card">
+    <h2>4. 參考資料（建議引用）</h2>
+    <ol>
+      <li>Wessel, P., &amp; Smith, W. H. F. (1991). Free software helps map and display data. <em>EOS Trans. AGU</em>, 72(41), 445–446.</li>
+      <li>Wessel, P., Luis, J., Uieda, L., Scharroo, R., Wobbe, F., Smith, W. H. F., &amp; Tian, D. (2019). The Generic Mapping Tools Version 6. <em>Geochemistry, Geophysics, Geosystems</em>, 20.</li>
+      <li>Uieda, L., Tian, D., Leong, W. J., Jones, M., 等 (2022). PyGMT: A Python interface for the Generic Mapping Tools.</li>
+    </ol>
+    <p class="note">
+      本網站基礎篇內容整理與改寫自 GMT / PyGMT 官方文件與教學手冊。
     </p>
   </section>
 </main>
 
-<script>
-  // JavaScript：互動邏輯
-  const themeBtn = document.getElementById("themeBtn");
-  const clickBtn = document.getElementById("clickBtn");
-  const counterSpan = document.getElementById("counter");
-  const previewBox = document.getElementById("previewBox");
-
-  let isDark = false;
-  let count = 0;
-
-  themeBtn.addEventListener("click", () => {
-    isDark = !isDark;
-    if (isDark) {
-      document.body.style.background = "#020617";
-      document.body.style.color = "#e5e7eb";
-      previewBox.textContent = "現在是「暗色主題」，再按一次可以切回亮色。";
-    } else {
-      document.body.style.background = "#f5f7fb";
-      document.body.style.color = "#111827";
-      previewBox.textContent = "你現在看到的是「亮色主題」。按下「切換背景主題」試試看！";
-    }
-  });
-
-  clickBtn.addEventListener("click", () => {
-    count += 1;
-    counterSpan.textContent = count;
-  });
-</script>
+<footer class="site-footer">
+  <p>製作：sheen 的 PyGMT 教學筆記</p>
+</footer>
 </body>
 </html>
