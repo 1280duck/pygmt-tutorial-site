@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>基礎 1：第一張世界地圖 | PyGMT 教學</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<header class="site-header">
+  <h1>基礎 1：第一張世界地圖</h1>
+  <p>學會使用 <code>Figure.coast()</code> 與簡單投影</p>
+</header>
+
+<nav class="navbar">
+  <a href="../index.html">回首頁</a>
+  <a href="#concept">觀念整理</a>
+  <a href="#code">程式碼</a>
+  <a href="#tasks">練習</a>
+</nav>
+
+<main class="content">
+  <section id="concept" class="card">
+    <h2>1. 觀念整理</h2>
+    <p>
+      這一節用最簡單的 Hammer 投影世界地圖，認識
+      <code>Figure</code> 和 <code>coast()</code> 的基本參數。
+    </p>
+    <ul>
+      <li><code>region="g"</code>：global，整個地球。</li>
+      <li><code>projection="H0/15c"</code>：Hammer 投影，中心經度 0，圖寬 15 cm。</li>
+      <li><code>frame="afg"</code>：自動刻度（a）、框線（f）、網格線（g）。</li>
+      <li><code>land</code>、<code>water</code>：陸地與海洋填色。</li>
+    </ul>
+  </section>
+
+  <section id="code" class="card">
+    <h2>2. 範例程式碼</h2>
+    <p>存成 <code>examples/01_first_map.py</code> 再執行：</p>
+<pre><code class="language-python">import pygmt
+
+def main():
+    fig = pygmt.Figure()
+
+    fig.coast(
+        region="g",
+        projection="H0/15c",
+        frame="afg",
+        land="lightgray",
+        water="white",
+        shorelines="1p,black",
+    )
+
+    fig.show()
+    # 若要輸出檔案，可改成：
+    # fig.savefig("first_world_map.png")
+
+if __name__ == "__main__":
+    main()</code></pre>
+  </section>
+
+  <section id="tasks" class="card">
+    <h2>3. 小練習</h2>
+    <ol>
+      <li>把投影改成 <code>"W0/15c"</code>（Winkel Tripel）比較差異。</li>
+      <li>把 <code>land</code> 改成其他顏色，例如 <code>"lightgreen"</code>。</li>
+      <li>把圖寬改成 <code>"H0/20c"</code>，觀察輸出大小變化。</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>基礎 1：第一張世界地圖 | sheen 的 PyGMT 教學</p>
+</footer>
+</body>
+</html>
