@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>基礎 2：區域地圖 | PyGMT 教學</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<header class="site-header">
+  <h1>基礎 2：畫出區域地圖（以西太平洋為例）</h1>
+  <p>練習用 <code>region</code> 指定經緯度範圍</p>
+</header>
+
+<nav class="navbar">
+  <a href="../index.html">回首頁</a>
+  <a href="#concept">觀念整理</a>
+  <a href="#code">程式碼</a>
+  <a href="#tasks">練習</a>
+</nav>
+
+<main class="content">
+  <section id="concept" class="card">
+    <h2>1. 觀念整理</h2>
+    <p>
+      實際做研究時，多半只關心特定區域。PyGMT 用
+      <code>region="W/E/S/N"</code> 來指定範圍，單位為度。
+    </p>
+    <p>例如 <code>"110/160/0/50"</code> 表示 110°E~160°E、0°N~50°N。</p>
+  </section>
+
+  <section id="code" class="card">
+    <h2>2. 範例程式碼</h2>
+    <p>存成 <code>examples/02_region_map.py</code>：</p>
+<pre><code class="language-python">import pygmt
+
+def main():
+    fig = pygmt.Figure()
+
+    # 西太平洋：110E~160E, 0N~50N
+    region = "110/160/0/50"
+
+    fig.coast(
+        region=region,
+        projection="M15c",                 # Plate Carrée 投影
+        frame=["af", "+tWest Pacific"],    # 自動刻度 + 標題
+        land="lightgray",
+        water="lightblue",
+        shorelines="1p,black",
+        borders="1/0.5p,black",            # 國界
+    )
+
+    fig.show()
+    # fig.savefig("west_pacific_map.png")
+
+if __name__ == "__main__":
+    main()</code></pre>
+  </section>
+
+  <section id="tasks" class="card">
+    <h2>3. 小練習</h2>
+    <ol>
+      <li>把 <code>region</code> 改成台灣附近或南美洲。</li>
+      <li>試著加入 <code>borders="2/0.5p,red"</code> 觀察國界差異。</li>
+      <li>把標題改成中文，例如 <code>"+t台灣周邊海域"</code>。</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>基礎 2：區域地圖 | sheen 的 PyGMT 教學</p>
+</footer>
+</body>
+</html>
