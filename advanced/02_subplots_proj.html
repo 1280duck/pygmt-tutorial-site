@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>進階 2：多投影子圖 | PyGMT 教學</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<header class="site-header">
+  <h1>進階 2：多投影子圖</h1>
+  <p>在同一張圖中排版多種世界地圖投影</p>
+</header>
+
+<nav class="navbar">
+  <a href="../index.html">回首頁</a>
+  <a href="#concept">觀念整理</a>
+  <a href="#code">程式碼</a>
+  <a href="#tasks">練習</a>
+</nav>
+
+<main class="content">
+  <section id="concept" class="card">
+    <h2>1. 觀念整理</h2>
+    <p>
+      PyGMT 的 <code>subplot</code> 介面可以一次建立多個子圖，
+      每個子圖可以有不同投影或不同區域，非常適合比較不同投影的地圖。
+    </p>
+    <p>
+      這個範例會做出 2x2 的世界地圖：
+    </p>
+    <ul>
+      <li>上左：Mercator</li>
+      <li>上右：Robinson</li>
+      <li>下左：Hammer</li>
+      <li>下右：Mollweide</li>
+    </ul>
+  </section>
+
+  <section id="code" class="card">
+    <h2>2. 範例程式碼</h2>
+    <p>存成 <code>examples/05_subplots_projections.py</code>：</p>
+<pre><code class="language-python">import pygmt
+
+def main():
+    fig = pygmt.Figure()
+
+    # 建立 2x2 的子圖框架
+    fig.subplot(
+        nrows=2,
+        ncols=2,
+        figsize=("18c", "12c"),
+        frame="af",
+        margins=["0.2c", "0.4c"],
+        sharex="b",
+        sharey="l",
+        autolabel=True,
+    )
+
+    # 子圖 1：Mercator
+    fig.subplot_set(panel=0)
+    fig.coast(
+        region="g",
+        projection="M8c",
+        frame=["af", "+tMercator"],
+        land="lightgray",
+        water="white",
+        shorelines="0.5p,black",
+    )
+
+    # 子圖 2：Robinson
+    fig.subplot_set(panel=1)
+    fig.coast(
+        region="g",
+        projection="R8c",
+        frame=["af", "+tRobinson"],
+        land="lightgray",
+        water="white",
+        shorelines="0.5p,black",
+    )
+
+    # 子圖 3：Hammer
+    fig.subplot_set(panel=2)
+    fig.coast(
+        region="g",
+        projection="H0/8c",
+        frame=["af", "+tHammer"],
+        land="lightgray",
+        water="white",
+        shorelines="0.5p,black",
+    )
+
+    # 子圖 4：Mollweide
+    fig.subplot_set(panel=3)
+    fig.coast(
+        region="g",
+        projection="W0/8c",
+        frame=["af", "+tMollweide"],
+        land="lightgray",
+        water="white",
+        shorelines="0.5p,black",
+    )
+
+    fig.subplot_end()
+
+    fig.show()
+    # fig.savefig("projection_subplots.png")
+
+if __name__ == "__main__":
+    main()</code></pre>
+  </section>
+
+  <section id="tasks" class="card">
+    <h2>3. 小練習</h2>
+    <ol>
+      <li>把其中一個子圖改成只顯示某個區域（例如西太平洋）。</li>
+      <li>改變 <code>figsize</code> 或子圖間距，調整版面配置。</li>
+      <li>在某個子圖上加上簡單的標註（例如經緯度格線更密、改顏色）。</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>進階 2：多投影子圖 | sheen 的 PyGMT 教學</p>
+</footer>
+</body>
+</html>
