@@ -2,108 +2,379 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>PyGMT 教學筆記 | 基礎篇首頁</title>
+  <title>sheen 的 PyGMT 教學站 | 互動式首頁</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- 共用樣式 -->
   <link rel="stylesheet" href="style.css" />
+  <!-- 首頁額外的小樣式 -->
+  <style>
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .btn-pill {
+      border: none;
+      border-radius: 999px;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: #6366f1;
+      color: #f9fafb;
+    }
+    .btn-ghost {
+      background: #ffffff;
+      color: #111827;
+      border: 1px solid #e5e7eb;
+    }
+    .btn-primary:hover,
+    .btn-ghost:hover {
+      opacity: 0.9;
+    }
+
+    /* Tab 區塊 */
+    .tab-buttons {
+      display: inline-flex;
+      border-radius: 999px;
+      background: #e5e7eb;
+      padding: 0.2rem;
+      margin-bottom: 1rem;
+    }
+    .tab-btn {
+      border: none;
+      background: transparent;
+      padding: 0.4rem 1.2rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+    .tab-btn.tab-active {
+      background: #111827;
+      color: #f9fafb;
+    }
+    .tab-panel {
+      display: none;
+      margin-top: 0.5rem;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* 小抄區塊 */
+    .cheatsheet-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+      gap: 1rem;
+    }
+    @media (max-width: 768px) {
+      .cheatsheet-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .cheat-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .cheat-btn {
+      text-align: left;
+      border-radius: 0.75rem;
+      border: 1px solid #e5e7eb;
+      padding: 0.6rem 0.8rem;
+      background: #ffffff;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .cheat-btn.active {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 1px #6366f1;
+      background: #eef2ff;
+    }
+    .preview-box {
+      margin-top: 0.25rem;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      background: #0f172a;
+      color: #e5e7eb;
+      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-size: 0.75rem;
+      margin-left: 0.35rem;
+    }
+  </style>
 </head>
 <body>
 <header class="site-header">
-  <h1>PyGMT 教學筆記（基礎篇）</h1>
-  <p>用 Python 玩 GMT：從安裝到畫出第一張地圖</p>
+  <h1>sheen 的 PyGMT 教學站</h1>
+  <p>從 0 到畫出漂亮地圖：基礎篇 ＋ 進階篇 ＋ 指令小抄</p>
 </header>
 
 <nav class="navbar">
-  <a href="#intro">PyGMT 是什麼？</a>
-  <a href="#install">安裝教學</a>
-  <a href="#toc">基礎章節</a>
-  <a href="#refs">參考資料</a>
+  <a href="#intro">簡介</a>
+  <a href="#courses">章節</a>
+  <a href="#cheatsheet">指令小抄</a>
+  <a href="#refs">參考文獻</a>
 </nav>
 
 <main class="content">
+  <!-- Hero / 簡介 + 主題切換 -->
   <section id="intro" class="card">
-    <h2>1. PyGMT 與 GMT 簡介</h2>
+    <h2>1. PyGMT / GMT 是什麼？</h2>
     <p>
-      GMT（Generic Mapping Tools）是一套專門用於科學繪圖與地圖製作的開源工具，
-      由 Pål Wessel 與 Walter H. F. Smith 發展，廣泛應用在地球物理與海洋科學。
+      GMT（Generic Mapping Tools）是一套專門用來做科學繪圖與地圖製作的開源工具，
+      PyGMT 則是 GMT 的 Python 介面，讓你可以在 Jupyter / Python 環境裡直接畫出各種地圖：
+      地形、海深、火山、地震分布、以及一般 2D 圖表。
     </p>
     <p>
-      <strong>PyGMT</strong> 是 GMT 的 Python 介面，讓你可以：
+      這個網站整理 sheen 自己學 PyGMT 的筆記：
+      上面有安裝教學、基礎語法、實際案例，還有一份可以快速複製的指令小抄。
     </p>
-    <ul>
-      <li>在 Python 中直接呼叫 GMT 的繪圖與資料處理功能。</li>
-      <li>與 NumPy、Pandas、Xarray 等套件整合，做資料分析＋出地圖。</li>
-      <li>在 Jupyter / JupyterLab 裡互動式畫圖，適合教學與報告。</li>
-    </ul>
+
+    <div class="hero-buttons">
+      <button id="themeToggle" class="btn-pill btn-primary">
+        切換亮 / 暗主題
+      </button>
+      <a href="#courses">
+        <button class="btn-pill btn-ghost">
+          從基礎篇開始看 ➜
+        </button>
+      </a>
+    </div>
   </section>
 
-  <section id="install" class="card">
-    <h2>2. 安裝 GMT / PyGMT（使用 conda）</h2>
-
-    <h3>2.1 安裝 Anaconda 或 Miniconda</h3>
+  <!-- 章節：基礎 / 進階 Tab 切換 -->
+  <section id="courses" class="card">
+    <h2>2. 章節一覽</h2>
     <p>
-      建議先安裝 <strong>Anaconda</strong> 或 <strong>Miniconda</strong>，方便使用
-      <code>conda</code> 來管理環境。
+      先選擇你要看的系列，再點右邊連結進去看詳細說明與程式碼。
     </p>
 
-    <h3>2.2 設定 conda-forge 頻道</h3>
-    <p>在終端機（Linux / macOS）或 Anaconda Prompt（Windows）輸入：</p>
-<pre><code class="language-bash">conda config --prepend channels conda-forge</code></pre>
+    <div class="tab-buttons">
+      <button id="tab-basic" class="tab-btn tab-active">基礎篇</button>
+      <button id="tab-adv" class="tab-btn">進階篇</button>
+    </div>
 
-    <h3>2.3 建立環境並安裝 GMT / PyGMT</h3>
-    <p>只練 GMT 指令列：</p>
-<pre><code class="language-bash">conda create --name mygmt python=3.9 gmt</code></pre>
+    <!-- 基礎篇 -->
+    <div id="panel-basic" class="tab-panel active">
+      <ol>
+        <li>
+          <a href="basics/01_first_map.html">基礎 1：第一張世界地圖</a>
+          <span class="badge">coast + 投影</span>
+        </li>
+        <li>
+          <a href="basics/02_region_map.html">基礎 2：區域地圖</a>
+          <span class="badge">region + 經緯度</span>
+        </li>
+        <li>
+          <a href="basics/03_relief_map.html">基礎 3：地形 / 海深色階圖</a>
+          <span class="badge">grdimage + colorbar</span>
+        </li>
+      </ol>
+      <p class="note">
+        建議照順序把基礎篇跑過一次，熟悉 Figure、coast、projection、region 的用法。
+      </p>
+    </div>
 
-    <p>若要直接用 PyGMT（會連 GMT 一起裝好）：</p>
-<pre><code class="language-bash">conda create --name mygmt python=3.9 numpy pandas xarray netcdf4 packaging pygmt</code></pre>
-
-    <h3>2.4 啟動環境並測試</h3>
-<pre><code class="language-bash">conda activate mygmt
-gmt help</code></pre>
-
-    <p>測試 PyGMT：</p>
-<pre><code class="language-python">import pygmt
-pygmt.show_versions()</code></pre>
-
-    <h3>2.5（選用）安裝 JupyterLab</h3>
-<pre><code class="language-bash">conda install jupyterlab
-jupyter lab</code></pre>
+    <!-- 進階篇 -->
+    <div id="panel-adv" class="tab-panel">
+      <ol>
+        <li>
+          <a href="advanced/01_taiwan_relief.html">進階 1：台灣地形陰影圖</a>
+          <span class="badge">高解析地形</span>
+        </li>
+        <li>
+          <a href="advanced/02_subplots_proj.html">進階 2：多投影子圖</a>
+          <span class="badge">subplot</span>
+        </li>
+        <li>
+          <a href="advanced/03_timeseries_plot.html">進階 3：時間序列折線圖</a>
+          <span class="badge">一般 2D 圖</span>
+        </li>
+      </ol>
+      <p class="note">
+        進階篇比較偏「實戰」：台灣區域、比較不同投影、搭配時間序列等，
+        很適合拿去做作業報告或期末專題的圖。
+      </p>
+    </div>
   </section>
 
-  <section id="toc" class="card">
-    <h2>3. 基礎章節總覽</h2>
-    <p>建議依序閱讀：</p>
-    <ol>
-      <li>
-        <a href="basics/01_first_map.html">基礎 1：第一張世界地圖（coast + 投影）</a>
-      </li>
-      <li>
-        <a href="basics/02_region_map.html">基礎 2：區域地圖（指定經緯度範圍）</a>
-      </li>
-      <li>
-        <a href="basics/03_relief_map.html">基礎 3：地形與海深色階圖（grdimage + colorbar）</a>
-      </li>
-    </ol>
+  <!-- 指令小抄互動區 -->
+  <section id="cheatsheet" class="card">
+    <h2>3. 互動式指令小抄</h2>
     <p>
-      對應的 Python 程式碼都放在
-      <code>examples/</code> 資料夾，實際跑一次會更有感覺。
+      點左邊的按鈕，右邊會顯示對應的指令或範例程式碼，可以直接複製貼到終端機或 Python 中使用。
     </p>
+
+    <div class="cheatsheet-layout">
+      <div class="cheat-buttons">
+        <button class="cheat-btn active" data-key="conda">
+          conda 安裝 PyGMT 環境
+        </button>
+        <button class="cheat-btn" data-key="check">
+          檢查 PyGMT / GMT 版本
+        </button>
+        <button class="cheat-btn" data-key="world">
+          畫第一張世界地圖（PyGMT）
+        </button>
+        <button class="cheat-btn" data-key="taiwan">
+          畫台灣地形陰影圖（PyGMT）
+        </button>
+      </div>
+
+      <div>
+        <div id="cheatTitle" style="font-weight:600; margin-bottom:0.3rem;">
+          conda 安裝 PyGMT 環境
+        </div>
+        <div id="cheatBox" class="preview-box">
+conda config --prepend channels conda-forge
+conda create --name mygmt python=3.9 numpy pandas xarray netcdf4 packaging pygmt
+conda activate mygmt
+        </div>
+      </div>
+    </div>
   </section>
 
+  <!-- 參考文獻 -->
   <section id="refs" class="card">
-    <h2>4. 參考資料（建議引用）</h2>
+    <h2>4. 參考文獻（建議引用）</h2>
     <ol>
       <li>Wessel, P., &amp; Smith, W. H. F. (1991). Free software helps map and display data. <em>EOS Trans. AGU</em>, 72(41), 445–446.</li>
       <li>Wessel, P., Luis, J., Uieda, L., Scharroo, R., Wobbe, F., Smith, W. H. F., &amp; Tian, D. (2019). The Generic Mapping Tools Version 6. <em>Geochemistry, Geophysics, Geosystems</em>, 20.</li>
       <li>Uieda, L., Tian, D., Leong, W. J., Jones, M., 等 (2022). PyGMT: A Python interface for the Generic Mapping Tools.</li>
     </ol>
     <p class="note">
-      本網站基礎篇內容整理與改寫自 GMT / PyGMT 官方文件與教學手冊。
+      本網站內容參考並改寫自 GMT / PyGMT 官方文件與教學手冊，並搭配 sheen 自己的實作範例整理。
     </p>
   </section>
 </main>
 
 <footer class="site-footer">
-  <p>製作：sheen 的 PyGMT 教學筆記</p>
+  <p>製作：sheen 的 PyGMT 教學筆記 | GitHub Pages 互動式版</p>
 </footer>
+
+<!-- 首頁互動邏輯 -->
+<script>
+  // 1. 亮 / 暗主題切換
+  const themeBtn = document.getElementById("themeToggle");
+  let darkMode = false;
+
+  themeBtn.addEventListener("click", () => {
+    darkMode = !darkMode;
+    if (darkMode) {
+      document.body.style.background = "#020617";
+      document.body.style.color = "#e5e7eb";
+      themeBtn.textContent = "切回亮色主題";
+    } else {
+      document.body.style.background = "#f5f7fb";
+      document.body.style.color = "#111827";
+      themeBtn.textContent = "切換亮 / 暗主題";
+    }
+  });
+
+  // 2. 基礎篇 / 進階篇 Tab
+  const tabBasic = document.getElementById("tab-basic");
+  const tabAdv = document.getElementById("tab-adv");
+  const panelBasic = document.getElementById("panel-basic");
+  const panelAdv = document.getElementById("panel-adv");
+
+  function setTab(active) {
+    if (active === "basic") {
+      tabBasic.classList.add("tab-active");
+      tabAdv.classList.remove("tab-active");
+      panelBasic.classList.add("active");
+      panelAdv.classList.remove("active");
+    } else {
+      tabBasic.classList.remove("tab-active");
+      tabAdv.classList.add("tab-active");
+      panelBasic.classList.remove("active");
+      panelAdv.classList.add("active");
+    }
+  }
+
+  tabBasic.addEventListener("click", () => setTab("basic"));
+  tabAdv.addEventListener("click", () => setTab("adv"));
+
+  // 3. 指令小抄切換
+  const cheatButtons = document.querySelectorAll(".cheat-btn");
+  const cheatBox = document.getElementById("cheatBox");
+  const cheatTitle = document.getElementById("cheatTitle");
+
+  const cheats = {
+    conda: {
+      title: "conda 安裝 PyGMT 環境",
+      text: `conda config --prepend channels conda-forge
+conda create --name mygmt python=3.9 numpy pandas xarray netcdf4 packaging pygmt
+conda activate mygmt`
+    },
+    check: {
+      title: "檢查 PyGMT / GMT 版本",
+      text: `import pygmt
+pygmt.show_versions()  # 列出 PyGMT、GMT 與依賴套件版本`
+    },
+    world: {
+      title: "畫第一張世界地圖（PyGMT）",
+      text: `import pygmt
+
+fig = pygmt.Figure()
+fig.coast(
+    region="g",
+    projection="H0/15c",
+    frame="afg",
+    land="lightgray",
+    water="white",
+    shorelines="1p,black",
+)
+fig.show()`
+    },
+    taiwan: {
+      title: "畫台灣地形陰影圖（PyGMT）",
+      text: `import pygmt
+from pygmt.datasets import load_earth_relief
+
+region = [118, 123.5, 20, 26]
+grid = load_earth_relief(
+    resolution="15s",
+    region=region,
+    registration="gridline",
+)
+
+fig = pygmt.Figure()
+fig.grdimage(
+    grid=grid,
+    region=region,
+    projection="M12c",
+    frame=["af", "+tTaiwan relief"],
+    cmap="geo",
+    shading=True,
+)
+fig.coast(region=region, projection="M12c", shorelines="1p,black")
+fig.colorbar(frame=["a1000", "+L高度/深度 (m)"])
+fig.show()`
+    }
+  };
+
+  cheatButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      cheatButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const key = btn.dataset.key;
+      cheatTitle.textContent = cheats[key].title;
+      cheatBox.textContent = cheats[key].text;
+    });
+  });
+</script>
 </body>
 </html>
