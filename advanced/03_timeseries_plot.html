@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>進階 3：時間序列折線圖 | PyGMT 教學</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<header class="site-header">
+  <h1>進階 3：時間序列折線圖</h1>
+  <p>用 PyGMT 畫簡單的時間序列圖（非地圖座標）</p>
+</header>
+
+<nav class="navbar">
+  <a href="../index.html">回首頁</a>
+  <a href="#concept">觀念整理</a>
+  <a href="#code">程式碼</a>
+  <a href="#tasks">練習</a>
+</nav>
+
+<main class="content">
+  <section id="concept" class="card">
+    <h2>1. 觀念整理</h2>
+    <p>
+      雖然 PyGMT 主要拿來畫地圖，但它也能畫一般的 2D 圖表，
+      例如時間序列折線圖。
+    </p>
+    <p>
+      這裡我們用假資料模擬 12 個月的某個指數（例如 NINO3.4），
+      示範如何設定 X/Y 軸、標題與座標刻度。
+    </p>
+  </section>
+
+  <section id="code" class="card">
+    <h2>2. 範例程式碼</h2>
+    <p>存成 <code>examples/06_timeseries.py</code>：</p>
+<pre><code class="language-python">import numpy as np
+import pygmt
+
+def main():
+    fig = pygmt.Figure()
+
+    # 模擬 12 個月的資料
+    months = np.arange(1, 13)
+    values = np.array([0.2, 0.4, 0.8, 1.1, 1.3, 1.0, 0.6, 0.1, -0.2, -0.4, -0.3, 0.0])
+
+    # 建立一個 2D 座標系
+    fig.basemap(
+        region=[0.5, 12.5, -1.5, 1.5],
+        projection="X12c/6c",
+        frame=["WSne", "xafg+tMonth", "yafg+tIndex"],
+    )
+
+    # 畫折線與點
+    fig.plot(
+        x=months,
+        y=values,
+        pen="1.5p,blue",
+    )
+    fig.plot(
+        x=months,
+        y=values,
+        style="c0.2c",
+        fill="blue",
+    )
+
+    fig.show()
+    # fig.savefig("timeseries_example.png")
+
+if __name__ == "__main__":
+    main()</code></pre>
+  </section>
+
+  <section id="tasks" class="card">
+    <h2>3. 小練習</h2>
+    <ol>
+      <li>把資料換成你自己的實際時間序列（例如 NINO3.4、降水量等）。</li>
+      <li>嘗試用不同顏色或線型區分多條曲線。</li>
+      <li>修改 <code>region</code> 上下界，使 Y 軸範圍更貼近資料。</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>進階 3：時間序列折線圖 | sheen 的 PyGMT 教學</p>
+</footer>
+</body>
+</html>
