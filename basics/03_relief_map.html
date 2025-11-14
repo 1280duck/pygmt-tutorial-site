@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>基礎 3：地形與海深色階圖 | PyGMT 教學</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<header class="site-header">
+  <h1>基礎 3：地形與海深色階圖</h1>
+  <p>載入全球地形網格，使用 <code>grdimage</code> 與 <code>colorbar</code></p>
+</header>
+
+<nav class="navbar">
+  <a href="../index.html">回首頁</a>
+  <a href="#concept">觀念整理</a>
+  <a href="#code">程式碼</a>
+  <a href="#tasks">練習</a>
+</nav>
+
+<main class="content">
+  <section id="concept" class="card">
+    <h2>1. 觀念整理</h2>
+    <p>
+      PyGMT 內建 <code>load_earth_relief()</code> 可以載入地形/海深網格，
+      再用 <code>grdimage()</code> 畫成色階圖，搭配 <code>colorbar()</code> 顯示高度刻度。
+    </p>
+  </section>
+
+  <section id="code" class="card">
+    <h2>2. 範例程式碼</h2>
+    <p>存成 <code>examples/03_relief_map.py</code>：</p>
+<pre><code class="language-python">import pygmt
+from pygmt.datasets import load_earth_relief
+
+def main():
+    fig = pygmt.Figure()
+
+    # 30 分解析度全球地形/海深
+    grid = load_earth_relief(resolution="30m", registration="gridline")
+
+    fig.grdimage(
+        grid=grid,
+        projection="R15c",   # Robinson 投影
+        frame="af",
+        cmap="geo",          # 地形/海深配色
+        shading=True,
+    )
+
+    fig.colorbar(
+        frame=["a2000", "+L高度/深度 (m)"],
+    )
+
+    fig.show()
+    # fig.savefig("earth_relief_map.png")
+
+if __name__ == "__main__":
+    main()</code></pre>
+  </section>
+
+  <section id="tasks" class="card">
+    <h2>3. 小練習</h2>
+    <ol>
+      <li>把投影改成 <code>"M15c"</code> 或只畫出某個區域。</li>
+      <li>改變解析度（例如 <code>"01d"</code>、<code>"05m"</code>）比較檔案大小與細緻度。</li>
+      <li>把 <code>cmap</code> 改成其他色階（如 <code>"relief"</code>），看看差異。</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>基礎 3：地形與海深色階圖 | sheen 的 PyGMT 教學</p>
+</footer>
+</body>
+</html>
