@@ -114,42 +114,97 @@
       font-size: 0.75rem;
       margin-left: 0.35rem;
     }
+
+    /* 測驗區 */
+    .quiz-question {
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dashed #e5e7eb;
+    }
+    .quiz-question p {
+      margin: 0 0 0.35rem 0;
+      font-weight: 600;
+    }
+    .quiz-option {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.15rem;
+    }
+    .quiz-feedback {
+      font-size: 0.85rem;
+      margin-top: 0.15rem;
+    }
+    .quiz-correct {
+      color: #16a34a;
+    }
+    .quiz-wrong {
+      color: #b91c1c;
+    }
+
+    /* 圖片展示區 */
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+    .image-card {
+      background: #ffffff;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+    .image-card img {
+      width: 100%;
+      display: block;
+    }
+    .image-card figcaption {
+      padding: 0.6rem 0.9rem;
+      font-size: 0.85rem;
+      color: #4b5563;
+    }
   </style>
 </head>
 <body>
 <header class="site-header">
   <h1>sheen 的 PyGMT 教學站</h1>
-  <p>從 0 到畫出漂亮地圖：基礎篇 ＋ 進階篇 ＋ 指令小抄</p>
+  <p>從 0 到畫出漂亮地圖：基礎篇 ＋ 進階篇 ＋ 指令小抄 ＋ 小測驗</p>
 </header>
 
 <nav class="navbar">
   <a href="#intro">簡介</a>
   <a href="#courses">章節</a>
   <a href="#cheatsheet">指令小抄</a>
+  <a href="#quiz">PyGMT 測驗</a>
+  <a href="#gallery">圖片</a>
   <a href="#refs">參考文獻</a>
 </nav>
 
 <main class="content">
-  <!-- Hero / 簡介 + 主題切換 -->
+  <!-- 簡介 -->
   <section id="intro" class="card">
     <h2>1. PyGMT / GMT 是什麼？</h2>
     <p>
       GMT（Generic Mapping Tools）是一套專門用來做科學繪圖與地圖製作的開源工具，
       PyGMT 則是 GMT 的 Python 介面，讓你可以在 Jupyter / Python 環境裡直接畫出各種地圖：
-      地形、海深、火山、地震分布、以及一般 2D 圖表。
+      地形、海深、火山、地震分布，以及一般 2D 圖表。
     </p>
     <p>
       這個網站整理 sheen 自己學 PyGMT 的筆記：
-      上面有安裝教學、基礎語法、實際案例，還有一份可以快速複製的指令小抄。
+      上面有安裝教學、基礎語法、實際案例，還有一份可以快速複製的指令小抄，
+      以及一個小小的 PyGMT 測驗，看看自己吸收了多少。
     </p>
 
     <div class="hero-buttons">
-      <button id="themeToggle" class="btn-pill btn-primary">
-        切換亮 / 暗主題
-      </button>
       <a href="#courses">
+        <button class="btn-pill btn-primary">
+          從基礎篇開始 ➜
+        </button>
+      </a>
+      <a href="#quiz">
         <button class="btn-pill btn-ghost">
-          從基礎篇開始看 ➜
+          直接去做 PyGMT 小測驗
         </button>
       </a>
     </div>
@@ -247,9 +302,105 @@ conda activate mygmt
     </div>
   </section>
 
+  <!-- PyGMT 小測驗 -->
+  <section id="quiz" class="card">
+    <h2>4. PyGMT 小測驗</h2>
+    <p>
+      簡單四題，測測看你對 PyGMT / GMT 的基本概念還記得多少。
+    </p>
+
+    <form id="quizForm">
+      <div class="quiz-question" data-qid="q1">
+        <p>Q1. PyGMT 主要拿來做什麼？</p>
+        <label class="quiz-option">
+          <input type="radio" name="q1" value="A" /> A. 剪輯影片和做動畫
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q1" value="B" /> B. 科學繪圖與地圖製作
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q1" value="C" /> C. 訓練深度學習模型
+        </label>
+        <div id="feedback-q1" class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-question" data-qid="q2">
+        <p>Q2. 在 PyGMT 中，<code>region="g"</code> 代表什麼？</p>
+        <label class="quiz-option">
+          <input type="radio" name="q2" value="A" /> A. 台灣附近區域
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q2" value="B" /> B. 全球（global）
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q2" value="C" /> C. 只畫海洋，不畫陸地
+        </label>
+        <div id="feedback-q2" class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-question" data-qid="q3">
+        <p>Q3. 想載入全球地形 / 海深資料時，常用哪一個函式？</p>
+        <label class="quiz-option">
+          <input type="radio" name="q3" value="A" /> A. <code>load_earth_relief()</code>
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q3" value="B" /> B. <code>load_ocean_only()</code>
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q3" value="C" /> C. <code>load_topography_3d()</code>
+        </label>
+        <div id="feedback-q3" class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-question" data-qid="q4">
+        <p>Q4. 用 conda 安裝 PyGMT 時，通常建議把哪個 channel 設成優先？</p>
+        <label class="quiz-option">
+          <input type="radio" name="q4" value="A" /> A. defaults
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q4" value="B" /> B. conda-forge
+        </label>
+        <label class="quiz-option">
+          <input type="radio" name="q4" value="C" /> C. pytorch
+        </label>
+        <div id="feedback-q4" class="quiz-feedback"></div>
+      </div>
+
+      <button type="button" id="quizSubmit" class="btn-pill btn-primary">
+        交卷看看成績
+      </button>
+      <span id="quizResult" style="margin-left:0.6rem; font-weight:600;"></span>
+    </form>
+  </section>
+
+  <!-- 圖片展示區 -->
+  <section id="gallery" class="card">
+    <h2>5. PyGMT 圖片展示</h2>
+    <p>
+      這裡可以放你用 PyGMT 畫出來的成品圖。現在先放幾張示意，
+      之後 sheen 可以把自己產出的 PNG 檔放到 <code>assets/</code> 資料夾，
+      再改這些圖片路徑就好。
+    </p>
+
+    <div class="image-grid">
+      <figure class="image-card">
+        <img src="assets/world_map_example.png" alt="世界地圖示意（請用自己產出的圖取代）" />
+        <figcaption>示意：世界海岸線地圖（coast + 全球投影）</figcaption>
+      </figure>
+      <figure class="image-card">
+        <img src="assets/taiwan_relief_example.png" alt="台灣地形陰影圖示意" />
+        <figcaption>示意：台灣地形陰影圖（高解析 load_earth_relief + grdimage）</figcaption>
+      </figure>
+      <figure class="image-card">
+        <img src="assets/subplots_example.png" alt="多投影子圖示意" />
+        <figcaption>示意：多投影子圖（subplot + 不同投影比較）</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- 參考文獻 -->
   <section id="refs" class="card">
-    <h2>4. 參考文獻（建議引用）</h2>
+    <h2>6. 參考文獻（建議引用）</h2>
     <ol>
       <li>Wessel, P., &amp; Smith, W. H. F. (1991). Free software helps map and display data. <em>EOS Trans. AGU</em>, 72(41), 445–446.</li>
       <li>Wessel, P., Luis, J., Uieda, L., Scharroo, R., Wobbe, F., Smith, W. H. F., &amp; Tian, D. (2019). The Generic Mapping Tools Version 6. <em>Geochemistry, Geophysics, Geosystems</em>, 20.</li>
@@ -267,24 +418,7 @@ conda activate mygmt
 
 <!-- 首頁互動邏輯 -->
 <script>
-  // 1. 亮 / 暗主題切換
-  const themeBtn = document.getElementById("themeToggle");
-  let darkMode = false;
-
-  themeBtn.addEventListener("click", () => {
-    darkMode = !darkMode;
-    if (darkMode) {
-      document.body.style.background = "#020617";
-      document.body.style.color = "#e5e7eb";
-      themeBtn.textContent = "切回亮色主題";
-    } else {
-      document.body.style.background = "#f5f7fb";
-      document.body.style.color = "#111827";
-      themeBtn.textContent = "切換亮 / 暗主題";
-    }
-  });
-
-  // 2. 基礎篇 / 進階篇 Tab
+  // 1. 基礎篇 / 進階篇 Tab
   const tabBasic = document.getElementById("tab-basic");
   const tabAdv = document.getElementById("tab-adv");
   const panelBasic = document.getElementById("panel-basic");
@@ -307,7 +441,7 @@ conda activate mygmt
   tabBasic.addEventListener("click", () => setTab("basic"));
   tabAdv.addEventListener("click", () => setTab("adv"));
 
-  // 3. 指令小抄切換
+  // 2. 指令小抄切換
   const cheatButtons = document.querySelectorAll(".cheat-btn");
   const cheatBox = document.getElementById("cheatBox");
   const cheatTitle = document.getElementById("cheatTitle");
@@ -374,6 +508,62 @@ fig.show()`
       cheatTitle.textContent = cheats[key].title;
       cheatBox.textContent = cheats[key].text;
     });
+  });
+
+  // 3. PyGMT 小測驗
+  const quizBtn = document.getElementById("quizSubmit");
+  const quizResult = document.getElementById("quizResult");
+
+  const answerKey = {
+    q1: "B",
+    q2: "B",
+    q3: "A",
+    q4: "B",
+  };
+
+  quizBtn.addEventListener("click", () => {
+    let score = 0;
+    let total = Object.keys(answerKey).length;
+    let unanswered = 0;
+
+    // 清空舊 feedback
+    Object.keys(answerKey).forEach(qid => {
+      const fb = document.getElementById(`feedback-${qid}`);
+      if (fb) {
+        fb.textContent = "";
+        fb.classList.remove("quiz-correct", "quiz-wrong");
+      }
+    });
+
+    Object.entries(answerKey).forEach(([qid, correct]) => {
+      const selected = document.querySelector(`input[name="${qid}"]:checked`);
+      const fb = document.getElementById(`feedback-${qid}`);
+      if (!selected) {
+        unanswered += 1;
+        if (fb) {
+          fb.textContent = "這題還沒作答喔。";
+        }
+        return;
+      }
+      if (selected.value === correct) {
+        score += 1;
+        if (fb) {
+          fb.textContent = "✔ 答對了！";
+          fb.classList.add("quiz-correct");
+        }
+      } else {
+        if (fb) {
+          fb.textContent = `✘ 答錯了，正確答案是 ${correct}。`;
+          fb.classList.add("quiz-wrong");
+        }
+      }
+    });
+
+    if (unanswered > 0) {
+      quizResult.textContent = `先把所有題目作完吧～目前已作答 ${total - unanswered} / ${total} 題。`;
+    } else {
+      quizResult.textContent = `你的得分：${score} / ${total}`;
+    }
   });
 </script>
 </body>
